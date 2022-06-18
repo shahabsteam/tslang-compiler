@@ -101,10 +101,15 @@ public class Analyzer implements Expr.Visitor<Object> ,
 
 
 
-                   if(!argument.equals(function.declaration.params.get(i).identifier_type)){
-                       throw new RuntimeError(expr.paren,"" +
-                               "wrong type for argument "+(i+1)+" of "+function.declaration.name.lexeme);
-                   }
+
+
+            if(argument!=null){
+                if(!argument.equals(function.declaration.params.get(i).identifier_type)){
+                    throw new RuntimeError(expr.paren,"" +
+                            "wrong type for argument "+(i+1)+" of "+function.declaration.name.lexeme);
+                }
+            }
+
 
            }
 

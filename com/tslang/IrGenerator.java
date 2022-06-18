@@ -193,7 +193,7 @@ public class IrGenerator implements Expr.Visitor<IR> ,
         if (stmt.value != null) value = evaluate(stmt.value);
         if(value!=null){
 
-            if(((IR) value).type.equals("literal")){
+            if( value.type.equals("literal")){
                 System.out.println("mov  r0, "+value.literal);
             }else{
                 System.out.println("mov  r0, "+value.varName);
@@ -242,14 +242,14 @@ public class IrGenerator implements Expr.Visitor<IR> ,
 
     @Override
     public IR visitUnaryExpr(Expr.Unary expr) {
-        Object right = evaluate(expr.right);
+        IR right = evaluate(expr.right);
         String temp;
         switch (expr.operator.type){
             case MINUS:
                 temp = tempVar.getTempVar();
                 String minus1 = tempVar.getTempVar();
                 System.out.println("mov  "+minus1+", "+"-1");
-                System.out.println("mul  "+temp+ ", "+minus1+", "+right);
+                System.out.println("mul  "+temp+ ", "+minus1+", "+right.varName);
 
         }
         return new IR(null,null,"unary");
@@ -315,7 +315,7 @@ public class IrGenerator implements Expr.Visitor<IR> ,
         Object value = null ;
         tempVar.assign(stmt.name.lexeme);
         if (stmt.initializer != null) {
-            //value = evaluate(stmt.initializer);
+            value = evaluate(stmt.initializer);
         }
 
         environment.define(stmt.name.lexeme, stmt.type);
