@@ -1,0 +1,23 @@
+package com.tslang;
+
+enum TokenType {
+    // Single-character tokens.
+    LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
+    COMMA, DOT, MINUS, PLUS,COLON, SEMICOLON, SLASH, STAR,QUESTION,REMAINDER,LEFT_BRACKET,RIGHT_BRACKET,NUMBER,
+
+    // One or two character tokens.
+    EQUAL, EQUAL_EQUAL,LEFT_ARROW,RIGHT_ARROW,
+    GREATER, GREATER_EQUAL,
+    LESS, LESS_EQUAL,
+
+    // Literals.
+    IDENTIFIER, ARRAY, NUMERIC,VAR,
+
+    // Keywords.
+    AND, ELSE, FALSE, FC, FOR, IF, NONE, OR,NOT,IFNOT,
+     RETURN, TRUE, WHILE, PRINT,
+
+    EOF
+
+
+}
