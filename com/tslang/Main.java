@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Main {
     static boolean hadError = false;
-    private static final Analyzer analyzer = new Analyzer();
+    private static  Analyzer analyzer;
     public static void main(String[] args) throws IOException {
         runFile(args[0]);
     }
@@ -31,8 +31,13 @@ public class Main {
         // Stop if there was a syntax error.
         if (hadError) return;
         System.out.println("parsing finished");
+        Environment functions = parser.getEnvironment();
+        analyzer = new Analyzer(functions);
+
+        analyzer.setEnvironment(functions);
         analyzer.interpret(statements);
         if(hadError) return ;
+
         IrGenerator ir = new IrGenerator();
         ir.generate(statements);
 

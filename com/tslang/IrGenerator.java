@@ -196,6 +196,7 @@ public class IrGenerator implements Expr.Visitor<IR> ,
             if( value.type.equals("literal")){
                 System.out.println("mov  r0, "+value.literal);
             }else{
+                if(!value.varName.equals("r0"))
                 System.out.println("mov  r0, "+value.varName);
             }
         }
@@ -250,6 +251,7 @@ public class IrGenerator implements Expr.Visitor<IR> ,
                 String minus1 = tempVar.getTempVar();
                 System.out.println("mov  "+minus1+", "+"-1");
                 System.out.println("mul  "+temp+ ", "+minus1+", "+right.varName);
+                return new IR(null,temp,"unary");
 
         }
         return new IR(null,null,"unary");
@@ -412,6 +414,8 @@ public class IrGenerator implements Expr.Visitor<IR> ,
 
         environmentFor.define(stmt.forIdentfier.lexeme,"numeric");
         environmentFor.define(stmt.Iterator.lexeme,"numeric");
+        tempVar.assign(stmt.Iterator.lexeme);
+        tempVar.assign(stmt.forIdentfier.lexeme);
 
         executeForStatement(stmt.body,environmentFor);
         return null;

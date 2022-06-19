@@ -8,10 +8,16 @@ class Parser {
     private final List<Token> tokens;
     private int current = 0;
     private Token currentFunction;
+    private Environment environment = new Environment();
     Parser(List<Token> tokens) {
 
         this.tokens = tokens;
     }
+
+    public Environment getEnvironment() {
+        return environment;
+    }
+
     List<Stmt> parse() {
         List<Stmt> statements = new ArrayList<>();
         while (!isAtEnd()) {
@@ -177,9 +183,11 @@ class Parser {
         consume(LEFT_BRACE, "Expect '{' before " + kind + " body.");
         // TODO : make sure current works correctly
         currentFunction = name;
-
         List<Stmt> body = block();
-        return new Stmt.Function(name, parameters, body,returnType);
+        Stmt.Function stmt = new Stmt.Function(name, parameters, body,returnType);
+        Function functionAst = new Function(stmt);
+        environment.define(stmt.name.lexeme,functionAst);
+        return stmt;
     }
 
     private Stmt printStatement() {

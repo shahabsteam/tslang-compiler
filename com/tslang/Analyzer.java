@@ -6,17 +6,15 @@ import java.util.List;
 
 public class Analyzer implements Expr.Visitor<Object> ,
         Stmt.Visitor<Void>{
-    final Environment globals = new Environment();
-    private Environment environment = globals;
-    /* void interpret(Expr expression) {
-         try {
-             Object value = evaluate(expression);
-             System.out.println(stringify(value));
-         } catch (RuntimeError error) {
-             Lox.runtimeError(error);
-         }
-     }*/
-    Analyzer() {
+
+    private Environment environment;
+
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    Analyzer(Environment environment) {
+        this.environment = environment;
         Stmt.Function printFunction  = new Stmt.Function(new Token(TokenType.FC,"print","print",0),
                 Arrays.asList(new Token(TokenType.NUMERIC,"numeric",null,0,"numeric")),null,"none");
         Stmt.Function Arrayfunction  = new Stmt.Function(new Token(TokenType.FC,"Array","Array",0),
@@ -27,9 +25,9 @@ public class Analyzer implements Expr.Visitor<Object> ,
         Function print = new Function(printFunction);
         Function array = new Function(Arrayfunction);
         Function input = new Function(InputFunction);
-        globals.define("print", print);
-        globals.define("Array", array);
-        globals.define("input",input);
+        environment.define("print", print);
+        environment.define("Array", array);
+        environment.define("input",input);
     }
     void interpret(List<Stmt> statements) {
         try {
